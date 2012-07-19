@@ -1,16 +1,17 @@
 _ = require 'underscore'
+fs = require 'fs'
 
-# TODO: Load classes in a better way
-load = (type, names) ->
-  result = {}
-  for name in names
-    result[name] = require "./classes/#{type}/#{name.toLowerCase()}"
-  result
+classes = {}
+prefixes = {}
 
-primitive = load 'primitive', ['Number']
-func = load 'function', ['Add', 'Sub']
-comp = load 'comparison', ['Equals', 'Greater', 'Less']
-control = load 'control_flow', ['If']
+root = "#{__dirname}/classes"
+folders = fs.readdirSync root
+for folder in _.difference folders, ['sexp.coffee']
+  _classes = fs.readdirSync "#{root}/#{folder}"
+  for _class in _classes
+    loaded_class = require "#{root}/#{folder}/#{_class}"
+    classes[loaded_class.name] = loaded_class
+    prefixes[loaded_class.prefix] = loaded_class
 
 parser = (string, debug=false) ->
   tokens = tokenize string
@@ -52,24 +53,20 @@ tokenize_part = (array) ->
   return [array, []]
 
 analyze = (tokens) ->
-  switch tokens[0]
-    when "+"
-      new func.Add (analyze tokens[1]), (analyze tokens[2])
-    when "-"
-      new func.Sub (analyze tokens[1]), (analyze tokens[2])
-    when "="
-      new comp.Equals (analyze tokens[1]), (analyze tokens[2])
-    when ">"
-      new comp.Greater (analyze tokens[1]), (analyze tokens[2])
-    when "<"
-      new comp.Less (analyze tokens[1]), (analyze tokens[2])
-    when "if"
-      new control.If (analyze tokens[1]), (analyze tokens[2]), (analyze tokens[3])
+  _class = prefixes[tokens[0]]
+  if not _class?
+    if isNumeric tokens[0]
+      return new classes.Number tokens[0]
     else
-      if isNumeric tokens[0]
-        return new primitive.Number tokens[0]
-      else
-        console.log "Undefined type #{tokens[0]}"
+      return console.log "Undefined type #{tokens[0]}"
+  switch _class.num_params
+    when 1
+      return new _class (analyze tokens[1])
+    when 2
+      return new _class (analyze tokens[1]), (analyze tokens[2])
+    when 3
+      return new _class (analyze tokens[1]), (analyze tokens[2]), (analyze tokens[3])
+
 
 isNumeric = (string) ->
   return not isNaN string

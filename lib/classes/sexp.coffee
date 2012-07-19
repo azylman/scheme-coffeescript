@@ -1,6 +1,7 @@
 module.exports = class SExp
-  constructor: (@one, @two, @three) ->
   @prefix: "????"
+  @name: "SExp"
+  constructor: (@one, @two, @three) ->
   evaluate: () ->
     console.log "SExp eval undefined"
   toString: () =>
