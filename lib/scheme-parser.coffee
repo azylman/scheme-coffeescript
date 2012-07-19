@@ -16,7 +16,7 @@ for folder in _.difference folders, ['sexp.coffee']
 
 primitive = classes.primitive
 
-parser = (string, debug=false) ->
+parse = (string, debug=false) ->
   tokens = tokenize string
   console.log "Tokens:", tokens if debug
   result = analyze tokens
@@ -74,5 +74,6 @@ analyze = (tokens) ->
 isNumeric = (string) ->
   return not isNaN string
 
-module.exports.tokenize = tokenize
-module.exports.parser = parser
+module.exports.analyzer = analyze
+module.exports.tokenizer = tokenize
+module.exports.parser = parse
