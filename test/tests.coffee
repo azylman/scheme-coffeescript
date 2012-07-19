@@ -16,6 +16,8 @@ describe 'parser', ->
       assert _.isEqual (tokenize '(+ (+ 1 1) (+ 1 1))'), [ '+', [ '+', '1', '1'], [ '+', '1', '1'] ]
     it 'multi-letter statements', ->
       assert _.isEqual (tokenize '(if (= 1 2) 1 2)'), [ 'if', [ '=', '1', '2' ], '1', '2' ]
+  describe 'analyzes', ->
+    # TODO: test cases for analysis here
 
 describe 'interpreter', ->
   it 'does simple addition', ->
