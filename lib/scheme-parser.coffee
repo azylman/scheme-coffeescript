@@ -1,17 +1,20 @@
 _ = require 'underscore'
 fs = require 'fs'
 
+root = "#{__dirname}/classes"
+
 classes = {}
 prefixes = {}
-
-root = "#{__dirname}/classes"
 folders = fs.readdirSync root
 for folder in _.difference folders, ['sexp.coffee']
   _classes = fs.readdirSync "#{root}/#{folder}"
+  classes[folder] = {}
   for _class in _classes
     loaded_class = require "#{root}/#{folder}/#{_class}"
-    classes[loaded_class.name] = loaded_class
+    classes[folder][loaded_class.name] = loaded_class
     prefixes[loaded_class.prefix] = loaded_class
+
+primitive = classes.primitive
 
 parser = (string, debug=false) ->
   tokens = tokenize string
@@ -56,7 +59,7 @@ analyze = (tokens) ->
   _class = prefixes[tokens[0]]
   if not _class?
     if isNumeric tokens[0]
-      return new classes.Number tokens[0]
+      return new primitive.Number tokens[0]
     else
       return console.log "Undefined type #{tokens[0]}"
   switch _class.num_params
