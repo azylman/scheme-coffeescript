@@ -56,12 +56,12 @@ tokenize_part = (array) ->
   return [array, []]
 
 analyze = (tokens) ->
-  _class = prefixes[tokens[0]]
-  if not _class?
-    if isNumeric tokens[0]
-      return new primitive.Number tokens[0]
+  if not _.isArray tokens
+    if isNumeric tokens
+      return new primitive.Number tokens
     else
-      return console.log "Undefined type #{tokens[0]}"
+      return console.log "Undefined type #{tokens}"
+  _class = prefixes[tokens[0]]
   switch _class.num_params
     when 1
       return new _class (analyze tokens[1])
