@@ -13,31 +13,38 @@ analyze = (sexp) ->
 tokenize = (sexp) ->
   tokenizer sexp
 
-assert_equal = (left, right) ->
-  assert (_.isEqual left, right), "is #{left}, should be #{right}"
+assert_equal = (expected, actual) ->
+  assert (_.isEqual expected, actual), "is #{actual}, should be #{expected}"
 
 describe 'parser', ->
   describe 'tokenizes', ->
     it 'non-nested statements', ->
-      assert_equal (tokenize '(+ 1 2)'), [ '+', '1', '2' ]
+      assert_equal [ '+', '1', '2' ], tokenize '(+ 1 2)'
+      assert_equal [ '+', '1', '2', '3' ], tokenize '(+ 1 2 3)'
     it 'nested statements', ->
-      assert_equal (tokenize '(+ 1 (+ 1 1))'), [ '+', '1', [ '+', '1', '1'] ]
-      assert_equal (tokenize '(+ (+ 1 1) 1)'), [ '+', [ '+', '1', '1'], '1' ]
-      assert_equal (tokenize '(+ (+ 1 1) (+ 1 1))'), [ '+', [ '+', '1', '1'], [ '+', '1', '1'] ]
+      assert_equal [ '+', '1', [ '+', '1', '1'] ], tokenize '(+ 1 (+ 1 1))'
+      assert_equal [ '+', [ '+', '1', '1'], '1' ], tokenize '(+ (+ 1 1) 1)'
+      assert_equal [ '+', [ '+', '1', '1'], [ '+', '1', '1'] ], tokenize '(+ (+ 1 1) (+ 1 1))'
+      assert_equal [ '+', '1', [ '+', '1', '1', '2'], '2' ], tokenize '(+ 1 (+ 1 1 2) 2)'
     it 'multi-letter statements', ->
-      assert_equal (tokenize '(if (= 1 2) 1 2)'), [ 'if', [ '=', '1', '2' ], '1', '2' ]
+      assert_equal [ 'if', [ '=', '1', '2' ], '1', '2' ], tokenize '(if (= 1 2) 1 2)'
     it 'multi-digit numbers', ->
-      assert_equal (tokenize '(+ 12 2)'), [ '+', '12', '2' ]
+      assert_equal [ '+', '12', '2' ], tokenize '(+ 12 2)'
+      assert_equal [ '+', '12', '2', '3' ], tokenize '(+ 12 2 3)'
   describe 'analyzes', ->
     it 'single digit numbers', ->
-      assert_equal (analyze '(/ 1 6)'), '[ / 1, 6 ]'
+      assert_equal '[ / 1, 6 ]', analyze '(/ 1 6)'
+      assert_equal '[ / 1, 6, 8 ]', analyze '(/ 1 6 8)'
     it 'multi-digit numbers', ->
-      assert_equal (analyze '(/ 12 6)'), '[ / 12, 6 ]'
+      assert_equal '[ / 12, 6 ]', analyze '(/ 12 6)'
+      assert_equal '[ / 12, 6, 1 ]', analyze '(/ 12 6 1)'
     it 'nested numbers', ->
-      assert_equal (analyze '(/ 1 (+ 1 3))'), '[ / 1, [ + 1, 3 ] ]'
+      assert_equal '[ / 1, [ + 1, 3 ] ]', analyze '(/ 1 (+ 1 3))'
+      assert_equal '[ / 1, [ + 1, 3 ], 1 ]', analyze '(/ 1 (+ 1 3) 1)'
 
 describe 'interpreter', ->
   it 'does simple addition', ->
+    assert_equal 3, evaluate '(+ 1 2)'
     assert_equal 5, evaluate '(+ 1 (+ 1 3))'
     assert_equal 5, evaluate '(+ (+ 1 3) 1)'
     assert_equal 8, evaluate '(+ (+ 1 3) (+ 1 3))'
