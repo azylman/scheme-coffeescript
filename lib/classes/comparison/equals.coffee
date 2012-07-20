@@ -4,4 +4,4 @@ module.exports = class Equals extends SExp
   @name: "Equals"
   @num_params: 2
   evaluate: () ->
-    @one.evaluate() is @two.evaluate()
+    @values[0].evaluate() is @values[1].evaluate()

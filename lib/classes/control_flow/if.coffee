@@ -4,4 +4,4 @@ module.exports = class If extends SExp
   @name: "If"
   @num_params: 3
   evaluate: () ->
-    if @one.evaluate() then @two.evaluate() else @three.evaluate()
+    if @values[0].evaluate() then @values[1].evaluate() else @values[2].evaluate()

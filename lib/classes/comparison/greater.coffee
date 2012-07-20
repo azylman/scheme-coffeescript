@@ -4,4 +4,4 @@ module.exports = class Greater extends SExp
   @name: "Greater"
   @num_params: 2
   evaluate: () ->
-    @one.evaluate() > @two.evaluate()
+    @values[0].evaluate() > @values[1].evaluate()

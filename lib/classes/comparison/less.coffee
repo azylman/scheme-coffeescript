@@ -4,4 +4,4 @@ module.exports = class Less extends SExp
   @name: "Less"
   @num_params: 2
   evaluate: () ->
-    @one.evaluate() < @two.evaluate()
+    @values[0].evaluate() < @values[1].evaluate()

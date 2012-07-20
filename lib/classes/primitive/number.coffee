@@ -4,4 +4,4 @@ module.exports = class Number extends SExp
   @name: "Number"
   @num_params: 1
   evaluate: () ->
-    +@one
+    +@values

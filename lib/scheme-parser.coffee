@@ -62,14 +62,9 @@ analyze = (tokens) ->
     else
       return console.log "Undefined type #{tokens}"
   _class = prefixes[tokens[0]]
-  switch _class.num_params
-    when 1
-      return new _class (analyze tokens[1])
-    when 2
-      return new _class (analyze tokens[1]), (analyze tokens[2])
-    when 3
-      return new _class (analyze tokens[1]), (analyze tokens[2]), (analyze tokens[3])
-
+  tokens = tokens.slice 1
+  return new _class _.map tokens, (token) ->
+    analyze token
 
 isNumeric = (string) ->
   return not isNaN string
