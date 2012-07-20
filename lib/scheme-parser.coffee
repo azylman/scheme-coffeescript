@@ -33,7 +33,7 @@ separate = (string) ->
 
 tokenize = (string) ->
   array = separate string
-  throw "Malformed string" if array[0] isnt '(' and array[array.length-1] isnt ')'
+  throw new Error "malformed string" if array[0] isnt '(' and array[array.length-1] isnt ')'
   [result, rest] = tokenize_part array.slice 1, array.length
   return result
 
@@ -60,9 +60,9 @@ analyze = (tokens) ->
     if isNumeric tokens
       return new primitive.Number tokens
     else
-      return throw "ERROR: Undefined primitive #{tokens}"
+      return throw new Error "undefined primitive #{tokens}"
   _class = prefixes[tokens[0]]
-  return throw "ERROR: Prefix #{tokens[0]} is invalid" if not _class?
+  return throw new Error "prefix #{tokens[0]} is invalid" if not _class?
   tokens = tokens.slice 1
   return new _class _.map tokens, (token) -> analyze token
 
