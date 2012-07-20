@@ -1,8 +1,10 @@
+fs = require 'fs'
 parser = (require './scheme-parser').parser
 
-simple_math = '(+ 1 (+ 1 3))'
-simple_evaluation = '(= (+ 1 1) 2)'
-simple_if = '(if (= (+ 1 1) 2) 2 3)'
-sexp = parser simple_if
+process.stdin.resume()
+process.stdin.setEncoding 'utf8'
 
-console.log sexp.evaluate()
+process.stdin.on 'data', (chunk) ->
+  line = chunk.split '\n'
+  line = line[0]
+  console.log (parser line).evaluate()
