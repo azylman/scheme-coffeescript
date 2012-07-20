@@ -64,6 +64,12 @@ describe 'interpreter', ->
   it 'does simple less than comparison', ->
     assert_equal false, evaluate '(< (+ 1 2) 2)'
     assert_equal true, evaluate '(< 2 (+ 1 2))'
+  it 'does simple and', ->
+    assert_equal false, evaluate '(&& (= 1 2) (< 1 2))'
+    assert_equal true, evaluate '(&& (= 1 1) (< 1 2))'
+  it 'does simple or', ->
+    assert_equal false, evaluate '(|| (= 1 2) (< 2 2))'
+    assert_equal true, evaluate '(|| (= 1 1) (< 1 2))'
   it 'does simple if', ->
     assert_equal 2, evaluate '(if (= (+ 1 1) 2) 2 3)'
     assert_equal 3, evaluate '(if (= (+ 2 1) 2) 2 3)'
