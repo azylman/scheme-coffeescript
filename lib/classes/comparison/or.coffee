@@ -1,7 +1,9 @@
+_ = require 'underscore'
 SExp = require '../sexp.coffee'
 module.exports = class Or extends SExp
   @prefix: "||"
   @name: "Or"
-  @num_params: 2
   evaluate: () ->
-    @values[0].evaluate() or @values[1].evaluate()
+    base = @values[0].evaluate()
+    base = base or @values[i].evaluate() for i in _.range 1, @values.length
+    return base

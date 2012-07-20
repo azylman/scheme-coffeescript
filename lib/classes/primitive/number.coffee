@@ -1,7 +1,11 @@
+_ = require 'underscore'
 SExp = require '../sexp'
 module.exports = class Number extends SExp
   @prefix: ""
   @name: "Number"
-  @num_params: 1
+  validate: () ->
+    return "#{@values} isn't a number" if not @constructor.is @values
+  @is: (string) ->
+    (not _.isArray string) and (not isNaN string)
   evaluate: () ->
     +@values

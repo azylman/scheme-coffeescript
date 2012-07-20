@@ -3,6 +3,10 @@ module.exports = class SExp
   @prefix: "????"
   @name: "SExp"
   constructor: (@values) ->
+    err = @validate()
+    throw new Error "failed to validate: #{err}" if err
+  validate: () ->
+    return 
   evaluate: () ->
     console.log "SExp eval undefined"
   toString: () =>

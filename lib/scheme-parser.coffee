@@ -14,7 +14,7 @@ for folder in _.difference folders, ['sexp.coffee']
     classes[folder][loaded_class.name] = loaded_class
     prefixes[loaded_class.prefix] = loaded_class
 
-primitive = classes.primitive
+primitives = classes.primitive
 
 parse = (string, debug=false) ->
   tokens = tokenize string
@@ -57,10 +57,10 @@ tokenize_part = (array) ->
 
 analyze = (tokens) ->
   if not _.isArray tokens
-    if isNumeric tokens
-      return new primitive.Number tokens
-    else
-      return throw new Error "undefined primitive #{tokens}"
+    for name, primitive of primitives
+      if primitive.is tokens
+        return new primitive tokens
+    return throw new Error "undefined primitive #{tokens}"
   _class = prefixes[tokens[0]]
   return throw new Error "prefix #{tokens[0]} is invalid" if not _class?
   tokens = tokens.slice 1
