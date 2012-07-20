@@ -62,6 +62,7 @@ analyze = (tokens) ->
     else
       return console.log "Undefined type #{tokens}"
   _class = prefixes[tokens[0]]
+  throw "ERROR: prefix #{tokens[0]} is invalid" if not _class?
   tokens = tokens.slice 1
   return new _class _.map tokens, (token) ->
     analyze token
