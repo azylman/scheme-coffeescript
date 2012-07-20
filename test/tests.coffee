@@ -55,6 +55,9 @@ describe 'interpreter', ->
   it 'does simple equals comparison', ->
     assert_equal true, evaluate '(= (+ 1 1) 2)'
     assert_equal false, evaluate '(= (+ 1 1) 3)'
+  it 'does simple not equals comparison', ->
+    assert_equal false, evaluate '(/= (+ 1 1) 2)'
+    assert_equal true, evaluate '(/= (+ 1 1) 3)'
   it 'does simple greater than comparison', ->
     assert_equal true, evaluate '(> (+ 1 2) 2)'
     assert_equal false, evaluate '(> 2 (+ 1 2))'
