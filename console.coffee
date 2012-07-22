@@ -1,5 +1,5 @@
 fs = require 'fs'
-parser = ((require './interpreter') true).parser
+parser = ((require './interpreter') false).parser
 
 if process.argv.length < 3
   prompt = 'schemee> '
