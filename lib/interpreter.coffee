@@ -62,7 +62,9 @@ analyze = (tokens) ->
         return new primitive tokens
     return throw new Error "undefined primitive #{tokens}"
   _class = prefixes[tokens[0]]
-  return new classes.function.Proc tokens if not _class?
+  # if it's not an array and it isn't a prefix, that means we're calling a function
+  # that has been defined elsewhere
+  return new classes.function.Call tokens if not _class?
   tokens = tokens.slice 1
   return new _class _.map tokens, (token) -> analyze token
 
