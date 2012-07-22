@@ -23,13 +23,13 @@ process_all_modules 'functions', (_module) ->
   context[_module.prefix] = _module.function
 
 parse = (string, debug=false) ->
-  tokens = tokenize string
+  tokens = tokenize string, debug
   console.log "Tokens:", tokens if debug
-  result = analyze tokens
+  result = analyze tokens, debug
   console.log "Analyzed tokens:", result.toString() if debug
   result
 
-separate = (string) ->
+separate = (string, debug=false) ->
   modded_string = ""
   skip = 0
   for character in string
@@ -46,8 +46,8 @@ separate = (string) ->
     modded_string += " " if character is '('
   return modded_string.split ' '
 
-tokenize = (string) ->
-  array = separate string
+tokenize = (string, debug=false) ->
+  array = separate string, debug
   throw new Error "malformed string" if array[0] isnt '(' and array[array.length-1] isnt ')'
   [result, rest] = tokenize_part array.slice 1, array.length
   return result
@@ -70,7 +70,7 @@ tokenize_part = (array) ->
     i++
   return [array, []]
 
-analyze = (tokens) ->
+analyze = (tokens, debug=false) ->
   # If our first token is an apostrophre it signals that an array is coming
   return analyze_array tokens.slice 1 if tokens[0] is "'"
 
@@ -81,14 +81,14 @@ analyze = (tokens) ->
         return new type tokens
     return throw new Error "undefined type #{tokens}"
   _class = prefixes[tokens[0]]
-  # if it's not an array and it isn't a prefix, that means we're calling a function that's defined elsewhere
-  # - either a lambda or from the standard library
-  return new builtins.Call (_.map tokens, (token) -> analyze token), context if not _class?
-  tokens = tokens.slice 1
-  return new _class (_.map tokens, (token) -> analyze token), context
+  # if it's not an array and it isn't a builtin prefix, that means we're calling a function
+  # that's defined elsewhere - either a lambda or from the standard library
+  _class = builtins.Call if not _class
+  tokens = tokens.slice 1 if _class isnt builtins.Call
+  return new _class (_.map tokens, (token) -> analyze token, debug), context
 
-analyze_array = (tokens) ->
-  return new types.List _.map tokens, (token) -> analyze token
+analyze_array = (tokens, debug=false) ->
+  return new types.List _.map tokens, (token) -> analyze token, debug
 
 isNumeric = (string) ->
   return not isNaN string
