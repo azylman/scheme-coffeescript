@@ -80,6 +80,6 @@ describe 'interpreter', ->
   it 'supports boolean values', ->
     assert_equal 2, evaluate '(if #t 2 3)'
     assert_equal 3, evaluate '(if #f 2 3)'
-  it 'allows setting variables', ->
-    assert_equal 9, evaluate '(begin (define r 3) (* r r))'
+  it 'allows defining variables', ->
+    assert_equal 12, evaluate '(begin (define r 3) (define s 4) (* r s))'
     assert_equal 18, evaluate '(begin (define r 3) (* r (+ r r )))'
