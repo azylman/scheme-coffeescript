@@ -6,4 +6,5 @@ module.exports = class Define extends SExp
   validate: () ->
     return "only accepts two arguments" if @values.length isnt 2
   evaluate_with_context: (context) ->
-    context[@values[0]] = @values[1].evaluate_with_context context
+    context[@values[0]] = @values[1]
+    return ""
