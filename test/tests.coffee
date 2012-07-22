@@ -84,13 +84,18 @@ describe 'interpreter', ->
   it 'supports boolean values', ->
     assert_equal 2, evaluate '(if #t 2 3)'
     assert_equal 3, evaluate '(if #f 2 3)'
-  it 'allows defining variables', ->
+  it 'defines variables', ->
     assert_equal 12, evaluate '(begin (define r 3) (define s 4) (* r s))'
     assert_equal 18, evaluate '(begin (define r 3) (* r (+ r r )))'
-  it 'allows setting variables', ->
+  it 'sets variables', ->
     assert_equal 16, evaluate '(begin (define r 3) (set! r 4) (* r r))'
-  it 'allows creating and evaluating lambdas', ->
+  it 'creates and evaluates lambdas', ->
     assert_equal 12, evaluate '(begin (define fn (lambda (l) (* l 4))) (fn 3))'
     assert_equal 18, evaluate '(begin (define fn (lambda (l r) (* l r))) (fn 3 6))'
-  it 'allows creating lists', ->
+  it 'creates lists', ->
     assert_equal 4, evaluate "(head '(4 5 6))"
+  it 'gets the parts of a list', ->
+    assert_equal [5, 6], evaluate "(rest '(4 5 6))"
+    assert_equal 6, evaluate "(tail '(4 5 6))"
+  it 'gets the length of a list', ->
+    assert_equal 4, evaluate "(length (rest '(1 2 3 4 5)))"
