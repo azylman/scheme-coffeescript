@@ -8,6 +8,8 @@ module.exports = class SExp
   validate: () ->
     return 
   evaluate: () ->
+    @evaluate_with_context {}
+  evaluate_with_context: (context) ->
     console.log "SExp eval undefined"
   toString: () =>
     # If we're only one argument, skip the padding

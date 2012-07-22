@@ -4,5 +4,5 @@ module.exports = class Greater extends SExp
   @name: "Greater"
   validate: () ->
     return "greater than accepts 2 params, #{@values.length} were given" if @values.length isnt 2
-  evaluate: () ->
+  evaluate_with_context: (context) ->
     @values[0].evaluate() > @values[1].evaluate()

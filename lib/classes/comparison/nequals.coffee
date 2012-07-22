@@ -4,5 +4,5 @@ module.exports = class NEquals extends SExp
   @name: "NEquals"
   validate: () ->
     return "not equals accepts 2 params, #{@values.length} were given" if @values.length isnt 2
-  evaluate: () ->
+  evaluate_with_context: (context) ->
     @values[0].evaluate() isnt @values[1].evaluate()
