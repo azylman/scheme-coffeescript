@@ -33,14 +33,14 @@ describe 'parser', ->
       assert_equal [ '+', '12', '2', '3' ], tokenize '(+ 12 2 3)'
   describe 'analyzes', ->
     it 'single digit numbers', ->
-      assert_equal '[ / 1, 6 ]', analyze '(/ 1 6)'
-      assert_equal '[ / 1, 6, 8 ]', analyze '(/ 1 6 8)'
+      assert_equal '[ /, 1, 6 ]', analyze '(/ 1 6)'
+      assert_equal '[ /, 1, 6, 8 ]', analyze '(/ 1 6 8)'
     it 'multi-digit numbers', ->
-      assert_equal '[ / 12, 6 ]', analyze '(/ 12 6)'
-      assert_equal '[ / 12, 6, 1 ]', analyze '(/ 12 6 1)'
+      assert_equal '[ /, 12, 6 ]', analyze '(/ 12 6)'
+      assert_equal '[ /, 12, 6, 1 ]', analyze '(/ 12 6 1)'
     it 'nested numbers', ->
-      assert_equal '[ / 1, [ +, 1, 3 ] ]', analyze '(/ 1 (+ 1 3))'
-      assert_equal '[ / 1, [ +, 1, 3 ], 1 ]', analyze '(/ 1 (+ 1 3) 1)'
+      assert_equal '[ /, 1, [ +, 1, 3 ] ]', analyze '(/ 1 (+ 1 3))'
+      assert_equal '[ /, 1, [ +, 1, 3 ], 1 ]', analyze '(/ 1 (+ 1 3) 1)'
 
 describe 'interpreter', ->
   it 'does simple addition', ->
