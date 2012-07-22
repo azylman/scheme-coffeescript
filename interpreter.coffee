@@ -94,6 +94,6 @@ isNumeric = (string) ->
   return not isNaN string
 
 module.exports = (debug=false) ->
-  analyzer: (tokens) -> analyze tokens, debug
-  tokenizer: (string) -> tokenize string, debug
-  parser: (string) -> parse string, debug
+  analyzer: (tokens, _debug=debug) -> analyze tokens, _debug
+  tokenizer: (string, _debug=debug) -> tokenize string, _debug
+  parser: (string, _debug=debug) -> parse string, _debug
