@@ -31,6 +31,8 @@ describe 'parser', ->
     it 'multi-digit numbers', ->
       assert_equal [ '+', '12', '2' ], tokenize '(+ 12 2)'
       assert_equal [ '+', '12', '2', '3' ], tokenize '(+ 12 2 3)'
+    it 'arrays', ->
+      assert_equal [ "'", '3', '4', '5' ], tokenize "'(3 4 5)"
   describe 'analyzes', ->
     it 'single digit numbers', ->
       assert_equal '[ /, 1, 6 ]', analyze '(/ 1 6)'
@@ -41,6 +43,8 @@ describe 'parser', ->
     it 'nested numbers', ->
       assert_equal '[ /, 1, [ +, 1, 3 ] ]', analyze '(/ 1 (+ 1 3))'
       assert_equal '[ /, 1, [ +, 1, 3 ], 1 ]', analyze '(/ 1 (+ 1 3) 1)'
+    it 'arrays', ->
+      assert_equal '[ 3, 4, 5 ]', analyze "'(3 4 5)"
 
 describe 'interpreter', ->
   it 'does simple addition', ->
@@ -88,3 +92,5 @@ describe 'interpreter', ->
   it 'allows creating and evaluating lambdas', ->
     assert_equal 12, evaluate '(begin (define fn (lambda (l) (* l 4))) (fn 3))'
     assert_equal 18, evaluate '(begin (define fn (lambda (l r) (* l r))) (fn 3 6))'
+  it 'allows creating lists', ->
+    assert_equal 4, evaluate "(head '(4 5 6))"
