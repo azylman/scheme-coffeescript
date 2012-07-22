@@ -77,3 +77,6 @@ describe 'interpreter', ->
     assert_equal 12, evaluate '(* 4 3)'
   it 'does simple division', ->
     assert_equal 2, evaluate '(/ 12 6)'
+  it 'supports boolean values', ->
+    assert_equal 2, evaluate '(if #t 2 3)'
+    assert_equal 3, evaluate '(if #f 2 3)'
