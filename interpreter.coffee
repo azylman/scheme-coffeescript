@@ -1,24 +1,26 @@
 _ = require 'underscore'
 fs = require 'fs'
 
-classes = {}
+builtins = {}
 prefixes = {}
-root = "#{__dirname}/classes"
-folders = fs.readdirSync root
-for folder in _.difference folders, ['sexp.coffee']
-  _classes = fs.readdirSync "#{root}/#{folder}"
-  classes[folder] = {}
-  for _class in _classes
-    loaded_class = require "#{root}/#{folder}/#{_class}"
-    classes[folder][loaded_class.name] = loaded_class
-    prefixes[loaded_class.prefix] = loaded_class
-
-primitives = classes.primitive
-
+primitives = {}
 context = {}
-context[_class.prefix] = _class.function for name, _class of classes.temp
-delete prefixes[_class.prefix]  for name, _class of classes.temp
-delete classes.temp
+root = "#{__dirname}/lib"
+
+process_all_modules = (path, process) ->
+  filenamess = fs.readdirSync "#{root}/#{path}"
+  for filename in filenamess
+    process require "#{root}/#{path}/#{filename}"
+
+process_all_modules 'builtin', (_module) ->
+  builtins[_module.name] = _module
+  prefixes[_module.prefix] = _module
+
+process_all_modules 'primitive', (_module) ->
+  primitives[_module.name] = _module
+
+process_all_modules 'functions', (_module) ->
+  context[_module.prefix] = _module.function
 
 parse = (string, debug=false) ->
   tokens = tokenize string
@@ -68,7 +70,7 @@ analyze = (tokens) ->
   _class = prefixes[tokens[0]]
   # if it's not an array and it isn't a prefix, that means we're calling a function that's defined elsewhere
   # - either a lambda or from the standard library
-  return new classes.function.Call (_.map tokens, (token) -> analyze token), context if not _class?
+  return new builtins.Call (_.map tokens, (token) -> analyze token), context if not _class?
   tokens = tokens.slice 1
   return new _class (_.map tokens, (token) -> analyze token), context
 
