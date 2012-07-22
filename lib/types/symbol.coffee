@@ -11,4 +11,4 @@ module.exports = class Symbol extends SExp
     (not _.isArray string) and (not Number.is string) and not Bool.is string
   evaluate_with_context: (context) ->
     throw new Error "#{@values} is undefined" if not context[@values]?
-    return context[@values]
+    return context[@values].evaluate_with_context context

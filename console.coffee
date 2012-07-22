@@ -20,4 +20,4 @@ else
   context = {}
   for line in data.split '\n'
     result = (parser line).evaluate_with_default_context context
-    console.log result if result?
+    console.log result if result? and result isnt ""
