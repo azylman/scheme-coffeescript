@@ -1,6 +1,5 @@
 _ = require 'underscore'
 SExp = require '../sexp'
-Symbol = require '../primitive/symbol'
 module.exports = class Call extends SExp
   @prefix: ''
   @name: "Call"

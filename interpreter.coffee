@@ -3,7 +3,7 @@ fs = require 'fs'
 
 builtins = {}
 prefixes = {}
-primitives = {}
+types = {}
 context = {}
 root = "#{__dirname}/lib"
 
@@ -16,8 +16,8 @@ process_all_modules 'builtin', (_module) ->
   builtins[_module.name] = _module
   prefixes[_module.prefix] = _module
 
-process_all_modules 'primitive', (_module) ->
-  primitives[_module.name] = _module
+process_all_modules 'types', (_module) ->
+  types[_module.name] = _module
 
 process_all_modules 'functions', (_module) ->
   context[_module.prefix] = _module.function
@@ -74,12 +74,12 @@ analyze = (tokens) ->
   # If our first token is an apostrophre it signals that an array is coming
   return analyze_array tokens.slice 1 if tokens[0] is "'"
 
-  # If it's not an array, it's a primitive
+  # If it's not an array type and not an array, it's a type
   if not _.isArray tokens
-    for name, primitive of primitives
-      if primitive.is tokens
-        return new primitive tokens
-    return throw new Error "undefined primitive #{tokens}"
+    for name, type of types
+      if type.is tokens
+        return new type tokens
+    return throw new Error "undefined type #{tokens}"
   _class = prefixes[tokens[0]]
   # if it's not an array and it isn't a prefix, that means we're calling a function that's defined elsewhere
   # - either a lambda or from the standard library
@@ -88,7 +88,7 @@ analyze = (tokens) ->
   return new _class (_.map tokens, (token) -> analyze token), context
 
 analyze_array = (tokens) ->
-  return new primitives.List _.map tokens, (token) -> analyze token
+  return new types.List _.map tokens, (token) -> analyze token
 
 isNumeric = (string) ->
   return not isNaN string
