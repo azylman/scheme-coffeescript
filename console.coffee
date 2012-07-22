@@ -1,5 +1,5 @@
 fs = require 'fs'
-parser = (require './scheme-parser').parser
+parser = ((require './interpreter') false).parser
 
 process.stdin.resume()
 process.stdin.setEncoding 'utf8'

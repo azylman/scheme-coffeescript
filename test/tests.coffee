@@ -1,11 +1,12 @@
-parser = (require '../interpreter').parser
-tokenizer = (require '../interpreter').tokenizer
-analyzer = (require '../interpreter').analyzer
+interpreter = (require '../interpreter') false
+parser = interpreter.parser
+tokenizer = interpreter.tokenizer
+analyzer = interpreter.analyzer
 assert = require 'assert'
 _ = require 'underscore'
 
 evaluate = (sexp) ->
-  (parser sexp, false).evaluate()
+  (parser sexp).evaluate()
 
 analyze = (sexp) ->
   (analyzer tokenizer sexp).toString()

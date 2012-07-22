@@ -93,6 +93,7 @@ analyze_array = (tokens, debug=false) ->
 isNumeric = (string) ->
   return not isNaN string
 
-module.exports.analyzer = analyze
-module.exports.tokenizer = tokenize
-module.exports.parser = parse
+module.exports = (debug=false) ->
+  analyzer: (tokens) -> analyze tokens, debug
+  tokenizer: (string) -> tokenize string, debug
+  parser: (string) -> parse string, debug
