@@ -1,6 +1,6 @@
-parser = (require '../lib/interpreter').parser
-tokenizer = (require '../lib/interpreter').tokenizer
-analyzer = (require '../lib/interpreter').analyzer
+parser = (require '../interpreter').parser
+tokenizer = (require '../interpreter').tokenizer
+analyzer = (require '../interpreter').analyzer
 assert = require 'assert'
 _ = require 'underscore'
 
