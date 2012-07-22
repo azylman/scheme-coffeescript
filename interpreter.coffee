@@ -1,10 +1,9 @@
 _ = require 'underscore'
 fs = require 'fs'
 
-root = "#{__dirname}/classes"
-
 classes = {}
 prefixes = {}
+root = "#{__dirname}/classes"
 folders = fs.readdirSync root
 for folder in _.difference folders, ['sexp.coffee']
   _classes = fs.readdirSync "#{root}/#{folder}"
@@ -15,6 +14,14 @@ for folder in _.difference folders, ['sexp.coffee']
     prefixes[loaded_class.prefix] = loaded_class
 
 primitives = classes.primitive
+
+context =
+  '+': (args, context) ->
+    base = args[0].evaluate_with_context context
+    base += (args[i].evaluate_with_context context) for i in _.range 1, args.length
+    return base
+delete prefixes[_class.prefix]  for name, _class of classes.temp
+delete classes.temp
 
 parse = (string, debug=false) ->
   tokens = tokenize string
@@ -62,11 +69,11 @@ analyze = (tokens) ->
         return new primitive tokens
     return throw new Error "undefined primitive #{tokens}"
   _class = prefixes[tokens[0]]
-  # if it's not an array and it isn't a prefix, that means we're calling a function
-  # that has been defined elsewhere
-  return new classes.function.Call tokens if not _class?
+  # if it's not an array and it isn't a prefix, that means we're calling a function that's defined elsewhere
+  # - either a lambda or from the standard library
+  return new classes.function.Call (_.map tokens, (token) -> analyze token), context if not _class?
   tokens = tokens.slice 1
-  return new _class _.map tokens, (token) -> analyze token
+  return new _class (_.map tokens, (token) -> analyze token), context
 
 isNumeric = (string) ->
   return not isNaN string

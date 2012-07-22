@@ -5,7 +5,7 @@ assert = require 'assert'
 _ = require 'underscore'
 
 evaluate = (sexp) ->
-  (parser sexp).evaluate()
+  (parser sexp, false).evaluate()
 
 analyze = (sexp) ->
   (analyzer tokenizer sexp).toString()
@@ -16,7 +16,7 @@ tokenize = (sexp) ->
 assert_equal = (expected, actual) ->
   assert (_.isEqual expected, actual), "is #{actual}, should be #{expected}"
 
-describe 'parser', ->
+###describe 'parser', ->
   describe 'tokenizes', ->
     it 'non-nested statements', ->
       assert_equal [ '+', '1', '2' ], tokenize '(+ 1 2)'
@@ -39,8 +39,8 @@ describe 'parser', ->
       assert_equal '[ / 12, 6 ]', analyze '(/ 12 6)'
       assert_equal '[ / 12, 6, 1 ]', analyze '(/ 12 6 1)'
     it 'nested numbers', ->
-      assert_equal '[ / 1, [ + 1, 3 ] ]', analyze '(/ 1 (+ 1 3))'
-      assert_equal '[ / 1, [ + 1, 3 ], 1 ]', analyze '(/ 1 (+ 1 3) 1)'
+      assert_equal '[ / 1, [ +, 1, 3 ] ]', analyze '(/ 1 (+ 1 3))'
+      assert_equal '[ / 1, [ +, 1, 3 ], 1 ]', analyze '(/ 1 (+ 1 3) 1)'###
 
 describe 'interpreter', ->
   it 'does simple addition', ->

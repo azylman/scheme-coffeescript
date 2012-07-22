@@ -16,7 +16,8 @@ module.exports = class SExp
     return @values if not _.isArray @values
     return @values[0] if not @values[1]
 
-    result = "[ " + @constructor.prefix + " "
+    result = "[ "
+    result += @constructor.prefix + " " if @constructor.prefix isnt ''
     result += @values[0] if @values[0]
     result += ", " + @values[i] for i in _.range 1, @values.length
     result += " ]"
