@@ -2,13 +2,13 @@ _ = require 'underscore'
 module.exports = class SExp
   @prefix: "????"
   @name: "SExp"
-  constructor: (@values) ->
+  constructor: (@values, @context={}) ->
     err = @validate()
     throw new Error "failed to validate: #{err}" if err
   validate: () ->
     return 
   evaluate: () ->
-    @evaluate_with_context {}
+    @evaluate_with_context @context
   evaluate_with_context: (context) ->
     console.log "SExp eval undefined"
   toString: () =>
