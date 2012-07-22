@@ -10,5 +10,5 @@ module.exports = class Symbol extends SExp
   @is: (string) ->
     (not _.isArray string) and (not Number.is string) and not Bool.is string
   evaluate_with_context: (context) ->
-    return context[@values] if context[@values]
-    @values
+    throw new Error "#{@values} is undefined" if not context[@values]?
+    return context[@values]
