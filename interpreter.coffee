@@ -15,11 +15,8 @@ for folder in _.difference folders, ['sexp.coffee']
 
 primitives = classes.primitive
 
-context =
-  '+': (args, context) ->
-    base = args[0].evaluate_with_context context
-    base += (args[i].evaluate_with_context context) for i in _.range 1, args.length
-    return base
+context = {}
+context[_class.prefix] = _class.function for name, _class of classes.temp
 delete prefixes[_class.prefix]  for name, _class of classes.temp
 delete classes.temp
 
