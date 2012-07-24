@@ -103,7 +103,7 @@ describe 'interpreter', ->
   it 'calculates a recursive fibonacci', ->
     assert_equal 13, evaluate '(begin
       (define
-        fib1
+        fib
         (lambda
           (n)
           (if (= n 0)
@@ -116,4 +116,4 @@ describe 'interpreter', ->
           (if (= n 1)
             p1
             (fib2 (- n 1) p1 (+ p0 p1)))))
-      (fib1 7))'
+      (fib 7))'
