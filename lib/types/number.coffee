@@ -8,4 +8,6 @@ module.exports = class Number extends SExp
   @is: (string) ->
     (not _.isArray string) and (not isNaN string)
   evaluate_with_context: (context) ->
+    @
+  value: () ->
     +@values

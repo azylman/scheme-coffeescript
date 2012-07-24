@@ -6,7 +6,7 @@ assert = require 'assert'
 _ = require 'underscore'
 
 evaluate = (sexp) ->
-  (parser sexp).evaluate()
+  (parser sexp).evaluate().value()
 
 analyze = (sexp) ->
   (analyzer tokenizer sexp).toString()

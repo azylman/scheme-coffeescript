@@ -13,4 +13,5 @@ module.exports = class Lambda extends SExp
       throw new Error "Invalid number of arguments" if args.length isnt @values[0].values.length
       new_context = {}
       new_context[@values[0].values[i]] = args[i] for i in _.range args.length
-      @values[1].evaluate_with_context _.extend new_context, context
+      extend_context = _.extend new_context, context
+      @values[1].evaluate_with_context extend_context

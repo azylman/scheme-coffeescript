@@ -1,7 +1,8 @@
 _ = require 'underscore'
+Number = require '../types/number'
 module.exports = class Divide
   @prefix: "/"
   @function: (args, context) ->
-    base = args[0].evaluate_with_context context
-    base /= (args[i].evaluate_with_context context) for i in _.range 1, args.length
-    return base
+    base = (args[0].evaluate_with_context context).value()
+    base /= (args[i].evaluate_with_context context).value() for i in _.range 1, args.length
+    return new Number base.toString()

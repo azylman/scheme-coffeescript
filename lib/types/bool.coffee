@@ -8,4 +8,6 @@ module.exports = class Bool extends SExp
   @is: (string) ->
     (not _.isArray string) and string.length is 2 and string[0] is '#'
   evaluate_with_context: (context) ->
+    @
+  value: () ->
     @values is '#t'
