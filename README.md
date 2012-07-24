@@ -1,13 +1,13 @@
 Scheme interpreter in CoffeeScript
 =======
-This is intended to be an R5RS-conformant Scheme interpreter, written in CoffeeScript.
+This will eventually be an R5RS-conformant Scheme interpreter, written in CoffeeScript.
 
 There are two main parts: `console.coffee` and `interpreter.coffee`. You can run an interactive console with the command `coffee console.coffee` or, alternatively, execute a script by running `coffee console.coffee /path/to/script`.
 
 `interpreter.coffee` serves as a library for the console - it contains all of the parts necessasry for interpretation, specifically a tokenizer and a syntactic analyzer.
 
 ## Example
-Here is an example block of code:
+Here is an example block of code that you can execute:
 
     (define
       fib
