@@ -20,7 +20,7 @@ process_all_modules 'types', (_module) ->
   types[_module.name] = _module
 
 process_all_modules 'functions', (_module) ->
-  context[_module.prefix] = _module.function
+  context[_module.prefix] = _module
 
 parse = (string, debug=false) ->
   tokens = tokenize string, debug
