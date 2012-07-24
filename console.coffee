@@ -18,6 +18,9 @@ else
 
   data = fs.readFileSync filename, "utf8"
   context = {}
+  start = Date.now()
   for line in data.split '\n'
     result = (parser line).evaluate_with_default_context context
     console.log result.value() if result? and result isnt ""
+  end = Date.now()
+  console.log "Running time: #{end - start} ms"
