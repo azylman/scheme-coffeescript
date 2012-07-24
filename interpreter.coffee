@@ -30,20 +30,8 @@ parse = (string, debug=false) ->
   result
 
 separate = (string, debug=false) ->
-  modded_string = ""
-  skip = 0
-  for character in string
-    # Special handling to turn arrays from '(4 5 6) to ( ' 4 5 6 ) to make it easier to parse
-    if skip > 0
-      skip--
-      continue
-    if character is "'"
-      modded_string += "( ' "
-      skip = 1
-      continue
-    modded_string += " " if character is ')'
-    modded_string += character
-    modded_string += " " if character is '('
+  modded_string = ((string.replace /\)/g, ' )').replace /'\(/g, "( ' ").replace /\(/g, '( '
+  console.log "Turned #{string} into #{modded_string}" if debug
   return modded_string.split /\s+/
 
 tokenize = (string, debug=false) ->
