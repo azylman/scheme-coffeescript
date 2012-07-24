@@ -23,4 +23,4 @@ module.exports = class SExp
     result += @values[0].toString() if @values[0]
     result += ", " + @values[i].toString() for i in _.range 1, @values.length
     result += " ]"
-    return result
+    result
