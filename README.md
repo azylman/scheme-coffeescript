@@ -23,9 +23,9 @@ Here is an example block of code:
         (if (= n 1)
           p1
           (fib2 (- n 1) p1 (+ p0 p1)))))
-    (fib 7)
+    (fib 1200)
 
-This evaluats to `13`, the 13th number in the Fibonnaci sequence.
+This evaluats to `2.7269884455406272e+250`, the 1200th number in the Fibonnaci sequence.
 
 ## Supported types
   * numbers
