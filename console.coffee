@@ -11,7 +11,7 @@ if process.argv.length < 3
   process.stdin.on 'data', (chunk) ->
     line = chunk.split '\n'
     line = line[0]
-    console.log (parser line).evaluate()
+    console.log (parser line).evaluate().value()
     process.stdout.write prompt
 else
   filename = process.argv[2]
@@ -20,4 +20,4 @@ else
   context = {}
   for line in data.split '\n'
     result = (parser line).evaluate_with_default_context context
-    console.log result if result? and result isnt ""
+    console.log result.value() if result? and result isnt ""
