@@ -100,3 +100,20 @@ describe 'interpreter', ->
     assert_equal 6, evaluate "(tail '(4 5 6))"
   it 'gets the length of a list', ->
     assert_equal 4, evaluate "(length (rest '(1 2 3 4 5)))"
+  it 'calculates a recursive fibonacci', ->
+    assert_equal 13, evaluate '(begin
+      (define
+        fib1
+        (lambda
+          (n)
+          (if (= n 0)
+            0
+            (fib2 n 0 1))))
+      (define
+        fib2
+        (lambda
+          (n p0 p1)
+          (if (= n 1)
+            p1
+            (fib2 (- n 1) p1 (+ p0 p1)))))
+      (fib1 7))'

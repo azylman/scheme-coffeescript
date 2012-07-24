@@ -44,7 +44,7 @@ separate = (string, debug=false) ->
     modded_string += " " if character is ')'
     modded_string += character
     modded_string += " " if character is '('
-  return modded_string.split ' '
+  return modded_string.split /\s+/
 
 tokenize = (string, debug=false) ->
   array = separate string, debug
