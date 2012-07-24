@@ -91,7 +91,7 @@ describe 'interpreter', ->
   it 'sets variables', ->
     assert_equal 16, evaluate '(begin (define r 3) (set! r 4) (* r r))'
   it 'creates and evaluates lambdas', ->
-    assert_equal 12, evaluate '(begin (define fn (lambda (l) (* l 4))) (fn 3))'
+    assert_equal 12, evaluate '(begin (define fn (lambda (l) (* l 4))) (fn (+ 1 2)))'
     assert_equal 18, evaluate '(begin (define fn (lambda (l r) (* l r))) (fn 3 6))'
   it 'creates lists', ->
     assert_equal 4, evaluate "(head '(4 5 6))"
